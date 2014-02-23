@@ -15,6 +15,7 @@ angular.module('testApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap'
+
 ])
   .config(function ($routeProvider) {
     // We use AngularJS dependency injection to fetch the route provider.
@@ -42,8 +43,14 @@ angular.module('testApp', [
         templateUrl: 'views/timeslicer.html',
         controller: 'TimeslicerCtrl'
       })
+      .when('/test/promise', {
+        templateUrl: 'scripts/test/promise.view.html',
+        controller: 'PromiseCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
   });
-
+  angular.module('testApp').config(function($httpProvider){
+    $httpProvider.interceptors.push('myHttpInterceptor');
+  });

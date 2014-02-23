@@ -2,6 +2,8 @@ var fileio = require("../util/fileio");
 var agg = require("../aggregation/main");
 var url = require("url");
 var nfc = require("../test/nodeflowcontrol");
+var prom = require("../test/promise");
+
 var tu = require("../util/timeutil");
 
 /**
@@ -56,7 +58,8 @@ var route = function(pathname, request, responseWrite, finishedCallback){
 	} else if (pathname==="/agg"){
 		agg.mainReport.aggregate(responseWrite);
 	} else if (pathname==="/test"){
-		nfc.run();
+		//nfc.run();
+
 	}
 };
 

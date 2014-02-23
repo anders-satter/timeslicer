@@ -1,0 +1,145 @@
+Making sense of RequireJS with AngularJS
+----------------------------------------
+January 4th, 2014 by Leo Giovanetti
+After working for quite some time now with RequireJS to handle AngularJS 
+components,I found myself explaining to curious people how RequireJS makes 
+perfect sense to work with AngularJS.
+
+The main question I try to anwser is “How come you are using RequireJS if 
+AngularJS already handles dependencies?”.
+
+WITHOUT REQUIREJS
+-----------------
+AngularJS modules1
+As you may know, on AngularJS you have to declare modules in order to bootstrap 
+applications. Those modules can contain all kinds of AngularJS components, 
+such as directives, filters and services.
+
+First module with a filter
+--------------------------
+angular
+  .module('first', [])
+  .filter('greet', function() {
+    return function(name) {
+      return 'Hello, ' + name + '!';
+    }
+  });
+Here we created a module first which contains a very simple and friendly filter.
+Then, the dependencies comes to the equation.
+
+AngularJS dependencies and injection2
+AngularJS was designed to enable modules to inject other modules as dependencies. 
+Those injected modules should have other AngularJS components associated to make 
+use of this functionality. Once you inject an already existing module to your 
+newly created module, you may use every AngularJS component defined on the 
+injected module. In other words, injection of modules promotes a healthy 
+reusable code policy in order to let the developer partition functionality in 
+smaller parts as much as it makes sense.
+
+Second module injecting first module
+-------------------------------------
+angular
+  .module('second', ['first'])
+  .filter('goodbye', function() {
+    return function(name) {
+      return 'Good bye, ' + name + '!';
+    }
+  });
+Here we created a module second which injects the module first. This 
+conclusively means that we are going to be able to use filter ‘greet’ on an 
+application bootstrapped by ‘second’ module. This said, it is important to 
+mention that before ‘second’ module instantiates, the ‘first’ module should be 
+already defined in order to inject it successfully. In other (official) words, 
+“Depending on a module implies that required module needs to be loaded before
+ the requiring module is loaded.”3 That last part is very important for this 
+post as it is the key concept to make sense of RequireJS with AngularJS.
+
+Let’s imagine we have both previously defined modules on separated files, 
+firstModule.js and secondModule.js. To make everything work OK as explained, 
+you will need to have those scripts loaded on your page in the proper order.
+
+Loading modules on HTML page
+-----------------------------
+<script type="text/javascript" src="firstModule.js"></script>
+<script type="text/javascript" src="secondModule.js"></script>
+Imagine the amount of scripts you would have to load if your application is 
+constructed with lots of modules. This does not really scale, does it?
+
+USING REQUIREJS
+---------------
+RequireJS is a well known and extensively used AMD script loader which helps 
+when you need to load scripts before other scripts. In other words, it 
+successfully manages script dependencies. Ring a bell?
+
+---------- NB!-------
+Although AngularJS manages dependencies, internal AngularJS components 
+injectable dependencies, you may use script loaders to manage scripts 
+dependencies.
+---------- NB!-------
+
+firstModule.js
+--------------
+define(['angular'], function(angular) {
+  angular
+    .module('first', [])
+    .filter('greet', function() {
+      return function(name) {
+        return 'Hello, ' + name + '!';
+      }
+    });
+});
+ 
+
+secondModule.js
+---------------
+define(['angular', 'firstModule'], function(angular) {
+  angular
+    .module('second', ['first'])
+    .filter('goodbye', function() {
+      return function(name) {
+        return 'Good bye, ' + name + '!';
+      }
+    });
+});
+Here you can see that to define the second module we are loading firstly through 
+RequireJS the first module in order to inject it. Again, this is because you 
+need to have the injected modules loaded before you can inject them, much like 
+having the <script> for the first module before the second module loads. 
+Furthermore, this example shows how you should load AngularJS within its own 
+variable inside the module in order to use it on the callback. This is to 
+include AngularJS into the very same idea, not having any <script> not either 
+ loading the framework. 
+------NB!--------
+Notice that there is no need to return the created 
+module; having the module loaded with angular before you inject it is enough.
+------NB---------
+
+To conclude the idea, once you load the second module on your application, you 
+will be able to use the greet and goodbye filters.
+
+And how does the html file look, something like this?
+<script src="<path>/require.js" data-main="<path>/main.js"></script>
+
+main.js
+--------
+main.js contains the require.config:
+
+ require.config({
+  
+  	// alias libraries paths
+      paths: {
+         'domReady': '../lib/requirejs-domready/domReady',
+         'angular': '../lib/angular/angular'
+     },
+ 
+     // angular does not support AMD out of the box, put it in a shim
+     shim: {
+         'angular': {
+             exports: 'angular'
+         }
+     },
+ 
+     // kick start application
+     deps: ['./bootstrap']
+ });
+

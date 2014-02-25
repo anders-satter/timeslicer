@@ -1,0 +1,61 @@
+
+angularjs - $resource, what's the difference between get and query ...
+The main difference lies in query having isArray: true :
+
+'get':    {method:'GET'},
+'query':  {method:'GET', isArray:true}
+This means you would use get when requesting a single object, and query when requesting a collection. For example:
+
+Users.get({userId:123}); // returns a single user
+Users.query(); // returns a collection of all users.
+
+------------------------------------------------------------------
+http://patrikwibron.se/post/angular-resource/
+
+myApp.factory('ApiFactory', ['$resource', function($resource) {
+  return $resource('/cards/:id', { id:'@id' });
+}]);
+
+myApp.controller('CardController', ['$scope', 'ApiFactory',
+  function CardController ($scope, ApiFactory) {
+    // Get all cards (/api/cards)
+    ApiFactory.query(function(data) {
+      $scope.cards = data;
+    });
+    // Get a single card (/api/cards/1)
+    ApiFactory.get({id: 123}, function(data) {
+      $scope.card = data;
+    });
+  }
+]);
+
+var card = new ApiFactory();
+//? Måste man skapa en ny factory, trots att den är en singleton?
+//Detta är inte så bra eller hur?
+
+cardData = {
+  name: 'My card',
+  balance: 55
+};
+
+card.$save(cardData);
+
+Det går även att utöka $resource med egna metoder som motsvarar GET/POST/PUT/DELETE,
+till exempel vill du kanske ha en .fetch() istället för .query(), då kan du bara
+mappa om så att .fetch() motsvarar en GET och att den skall returnera en array istället för ett objekt.
+
+---------------------------------------------------------------
+http://stackoverflow.com/questions/15466427/using-angularjs-resource-to-get-data
+
+And as @finishingmove spotted you really can't assign $resource result to obtain immediately, provide callback:
+
+$scope.profileslist = profilelist.query(function (response) {
+    angular.forEach(response, function (item) {
+        if (item.profileid) {
+            $scope.items.push(item.profileid);
+        }
+    });
+});
+
+-------------------------------------------------------------------
+https://github.com/mgonto/restangular#differences-with-resource

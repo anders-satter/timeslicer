@@ -59,3 +59,5 @@ $scope.profileslist = profilelist.query(function (response) {
 
 -------------------------------------------------------------------
 https://github.com/mgonto/restangular#differences-with-resource
+
+Ingen anna kommer att kunna se allt detta...

@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('testApp').factory('TimeslicerFactory', ['$resource', function($resource){
+angular.module('testApp').factory('PromisesFactory', ['$resource', function($resource){
   /*
    *  What happens if this fails?;
    */
@@ -18,7 +18,6 @@ angular.module('testApp').controller('PromiseCtrl', ['$scope', '$q', function($s
 
   /*
     Promises: you don't have to write error handling at each step
-
    */
   $scope.addOne = function(num){
     var q = $q.defer();
@@ -38,22 +37,39 @@ angular.module('testApp').controller('PromiseCtrl', ['$scope', '$q', function($s
     return q.promise;
   }
 
+  $scope.addThree = function(num){
+    var q = $q.defer();
+    $scope.step++;
+    if (angular.isNumber(num)){
+      setTimeout(function(){
+        q.resolve(num+3);
+      },3000);
+    } else {
+      q.reject('NaN');
+    }
+    return q.promise;
+  }
+
 
   $scope.myValue = 0;
   $scope.step  = 0;
 
   $scope.promise = $scope.addOne($scope.myValue);
 
-  //Chaining
+  //Chaining functions where each function defines and returns a promise
   $scope.promise
     .then(function(v){return $scope.addOne(v)})
     .then(function(v){return $scope.addOne(v)})
-    .then(function(v){return $scope.addOne(v)})
+    .then(function(v){return $scope.addThree(v)})
     .then(function(v){return $scope.addOne(v)})
     //And in the last we put in the error handling callback
     .then(function(v){$scope.myValue=v}, function (err){$scope.myValue=err});
 
 }]);
+
+
+
+
 
 
 

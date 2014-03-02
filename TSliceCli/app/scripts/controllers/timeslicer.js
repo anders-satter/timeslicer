@@ -1,86 +1,73 @@
 'use strict';
 
-//angular.module('testApp').factory('TimeslicerFactory', ['$http', function($http){
-//		var s = {};
-//		s.allItems = function(onerror, onsuccess){
-//
-//      $http.get('/timeslicer/allItems').
-//			   success(function(data, status, headers, config) {
-//          /*
-//          The data is fetched and return in the callback
-//           */
-//          onsuccess(data, status);
-//        }).
-//			   error(function(data, status, headers, config) {
-//			    window.console.log(data);
-//			    window.console.log(status);
-//          onerror(data, status);
-//			  });
-//		};
-//		return s;
-//	}]);
+angular.module('testApp').factory('TimeslicerFactory', ['$resource', '$q','$http', function($resource, $q, $http) {
+  /*
+   *  What happens if this fails?;
+   */
+  //console.log('we are in the resource function - hallo!');
+  //return $resource('/timeslicer/allItems', {});
 
-angular.module('testApp').factory('TimeslicerFactory', ['$resource', function($resource){
-    /*
-     *  What happens if this fails?;
-     */
-    console.log('we are in the resource function');
-    return $resource('/timeslicer/allItems', {});
 
-	}]);
-
+  return {
+    getAllItems: function(onsuccess) {
+      var r = new $resource('/timeslicer/allItems', {}, {
+        get: {
+          isArray: true,
+          method: 'GET'
+        }});
+      //return r.get().$promise.next(onsuccess);
+      console.log("returning the callback case");
+      return r.get().$promise;
+    },
+    getAllItemsHttp: function() {
+      return $http.get('/timeslicer/allItems');
+      //return s;
+    }
+  }
+}]);
 
 
 /**
  * initializing the angular module
  */
 angular.module('testApp')
-    .controller('TimeslicerCtrl',['$scope','TimeslicerFactory',function ($scope, TimeslicerFactory) {
+  .controller('TimeslicerCtrl', ['$scope', 'TimeslicerFactory', function($scope, TimeslicerFactory) {
     $scope.allItems = [];
     /* In the rest factory we will insert a function
      * that retrieves the data
      */
-    var fetchDataFunction = function(data, status){
-      $scope.allItems = data;
-      //console.log("status: " + status);
-    };
-    TimeslicerFactory.query(function(response){
-      $scope.allItems = response;
-    });
-  }] );
-
-
-
-
-
-
-//angular.module('testApp')
-//  .controller('TimeslicerCtrl', function ($scope, TimeslicerFactory) {
-//    $scope.allItems = [];
-//    /* In the rest factory we will insert a function
-//     * that retrieves the data
-//     */
-//    var fetchDataFunction = function(data, status){
-//      $scope.allItems = data;
-//      //console.log("status: " + status);
-//    };
-//    var onError = function(data,status){
-//      console.log('Error: status: ' + status);
-//      console.log('Error: data: ' + data);
-//    };
-//    TimeslicerFactory.allItems(onError, fetchDataFunction);
-//  });
-
+    //console.log(TimeslicerFactory.getAllItemsHttp());
+    TimeslicerFactory.getAllItemsHttp()
+      .then(function (ret){
+        console.log(ret.status);
+        $scope.allItems = ret.data;
+      })
+      .catch(function (message){
+        $scope.allItems = message;
+      })
+      ['finally'](function(){
+        console.log('finally function called');
+      });
 
 
 /*
-  URI/URL are representing a resource, an object
-  Can be a collection of things
-  a collection of things
-
-
+    This is the resource variant
  */
-
+//    TimeslicerFactory.getAllItems()
+//      .then(function(data) {
+//        $scope.allItems = data;
+//      },
+//      //error
+//      function(error) {
+//        console.log(error);
+//      },
+//      function() {
+//        console.log("notify called");
+//      }
+//    )['finally'](function(mess) {
+//      console.log('finally called with mess: ' + mess);
+//    });
+  }]);
 
 
 

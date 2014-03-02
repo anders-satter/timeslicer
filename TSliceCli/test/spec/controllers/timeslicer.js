@@ -12,7 +12,7 @@ describe('Controller: TimeslicerCtrl', function () {
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     TimeslicerCtrl = $controller('TimeslicerCtrl', {
-      $scope: scope
+      //$scope:
     });
   }));
 

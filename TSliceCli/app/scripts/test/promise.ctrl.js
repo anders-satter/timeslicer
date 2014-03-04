@@ -42,7 +42,20 @@ angular.module('testApp').controller('PromiseCtrl', ['$scope', '$q', function($s
     $scope.step++;
     if (angular.isNumber(num)){
       setTimeout(function(){
-        q.resolve(num+3);
+
+        num = num +3;
+        q.resolve(num)
+
+        /*
+        This does NOT work
+        Apparently q.resolve can NOT take
+        a function as inparameter...
+        q.resolve(function(num) {
+          num + 3;
+        });
+         */
+
+
       },3000);
     } else {
       q.reject('NaN');

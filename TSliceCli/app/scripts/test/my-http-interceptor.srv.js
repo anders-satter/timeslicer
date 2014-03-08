@@ -3,7 +3,7 @@ angular.module('testApp').factory('myHttpInterceptor', function($q) {
   return {
     // optional method
     'request': function(config) {
-      console.log("request interceptor called")
+      //console.log("request interceptor called")
 
       // do something on success
       return config || $q.when(config);
@@ -22,7 +22,7 @@ angular.module('testApp').factory('myHttpInterceptor', function($q) {
 
     // optional method
     'response': function(response) {
-      console.log("response interceptor called")
+      //console.log("response interceptor called")
 
       // do something on success
       return response || $q.when(response);

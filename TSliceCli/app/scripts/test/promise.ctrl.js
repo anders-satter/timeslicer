@@ -53,7 +53,7 @@ angular.module('testApp').controller('PromiseCtrl', ['$scope', '$q', function($s
         q.resolve(function(num) {
           num + 3;
         });
-         */
+        */
 
 
       },3000);

@@ -42,7 +42,6 @@ var route = function(pathname, request, responseWrite, finishedCallback) {
      Return all items in json format
      http://localhost:8888/allItems
      */
-
     allItemsHolder = new AllItemsHolder();
     //allItemsHolder.getAllItems(finishedCallback);
     allItemsHolder.getAllItemsPromise().then(finishedCallback, function (err){
@@ -51,14 +50,12 @@ var route = function(pathname, request, responseWrite, finishedCallback) {
 
 
   } else if(pathname === "/timeslicer/totTime") {
-    //console.log("totTime called");
     /*
      Return a sum of all items in json format
      http://localhost:8888/totTime
      */
     allItemsHolder = new AllItemsHolder();
     allItemsHolder.getAllItems(sumAllItems);
-
 
   } else if(pathname === "/agg") {
     agg.mainReport.aggregate(responseWrite);
@@ -119,7 +116,7 @@ AllItemsHolder.prototype = {
 
   /**
    * Takes a list of items and formats it to json
-   *  and writes it to the console.log
+   * and writes it to the console.log
    * @param allItemsList
    */
   writeJsonToConsole: function(allItemsList) {

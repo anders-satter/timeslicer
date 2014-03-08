@@ -38,7 +38,8 @@ function start(route) {
 var dataCollection = [];
 
 /**
- * Function returning resultprocessor
+ * Function returning resultprocessor and processing
+ * the result before it
  * @param response
  * @returns {resultProcessor}
  */

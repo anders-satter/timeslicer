@@ -40,7 +40,7 @@ angular.module('testApp', [
         controller: 'Rest1Ctrl'
       })
       .when('/timeslicer/allItems', {
-        templateUrl: 'views/timeslicer.html',
+        templateUrl: 'reporting/allitems.view.html',
         controller: 'TimeslicerCtrl'
       })
       .when('/test/promise', {

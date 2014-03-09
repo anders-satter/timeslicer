@@ -12,7 +12,8 @@ angular.module('testApp')
         controller: 'TimeslicerCtrl'
       })
       .state('allItems.list', {
-        url: '/test/promise',
+        //url is appended to the parent state url: timeslicer/allItems/promise
+        url: '/promise',
         templateUrl: 'scripts/test/promise.view.html',
         controller: 'PromiseCtrl'
       })

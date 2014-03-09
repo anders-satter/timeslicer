@@ -13,11 +13,11 @@ border-collapse:collapse;
 }
 table,th, td
 {
-border: 1px solid black;
+border: 1px dimgray;
 }
 td {padding: 3px}
-th {background-color: #00A000;
-    color: #FFF;
+th {background-color: #a3a3a3;
+    color: #000000;
     padding: 3px;
     
 }
@@ -30,11 +30,11 @@ tr:nth-child(odd) {
 }
 */
 .oddrow {
-    background: grey;
+    background: #d2ffc5;
 }
 .evenrow {
-    background: red;
-    color: yellow
+    background: white;
+   /* color: yellow */
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */

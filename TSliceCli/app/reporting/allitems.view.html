@@ -1,15 +1,18 @@
 <p>This is the TimeslicerRoute view.</p>
-
 <!--
 <div>
-    <ul ng-repeat="i in allItems">
-        <li>
-            {{i.start}} : {{i.end}} :{{i.end}} :{{i.duration}} : {{i.project}} : 
-            {{i.activity}} :{{i.comment}} : 
+    <ol>
+        <li ng-repeat="i in allItems">
+            <span ng-class-odd="'oddrow'" ng-class-even="'evenrow'">
+                {{i.start}} : {{i.end}} :{{i.end}} :{{i.duration}} : {{i.project}} :
+                {{i.activity}} :{{i.comment}}
+            </span>
+
         </li>
-    </ul>
+    </ol>
 </div>
 -->
+
 <table>  
     <thead>  
         <tr>  
@@ -21,8 +24,8 @@
             <th>Comment</th>  
         </tr>  
     </thead>  
-    <tbody ng-repeat="i in allItems" ng-class-odd="oddrow" ng-class-even="evenrow">  
-        <tr>  
+    <tbody ng-repeat="i in allItems">
+        <tr  ng-class-odd="'oddrow'" ng-class-even="'evenrow'">
             <td>{{i.start}}</td>  
             <td>{{i.end}}</td>  
             <td>{{i.duration}}</td>  
@@ -31,11 +34,7 @@
             <td>{{i.comment}}</td>  
         </tr>  
     </tbody>  
-</table>  
-
-
-
-
+</table>
 
 <!--
 <table class="table table-hover table-bordered">  

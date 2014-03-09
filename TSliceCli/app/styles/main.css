@@ -6,6 +6,9 @@ body {
   font-family: monaco;
 }
 
+.statbackground {
+
+}
 
 table
 {
@@ -69,6 +72,7 @@ tr:nth-child(odd) {
 @media (min-width: 768px) {
   .container {
     max-width: 730px;
+    background-color: #d4d9c0;
   }
 }
 .container-narrow > hr {

@@ -16,7 +16,15 @@ angular.module('testApp').factory('TimeslicerFactory', ['$resource', '$q','$http
      * @returns {*|Array|Object|Mixed|promise|the}
      */
     getAllItemsHttp: function() {
-      return $http.get('/timeslicer/allItems');
+      //return $http.get('/timeslicer/allItems');
+      return $http({
+        method: 'GET',
+        url: '/timeslicer/allItems',
+        params: {'startDate': '2014-12-01',
+                 'endDate':'2014-12-31'
+        }
+      })
+
     }
   }
 }]);

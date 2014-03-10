@@ -7,7 +7,12 @@ function start(route) {
   var onRequest = function(request, response) {
     //often two requests, since browsers try to load favicon's as well
     var pathname = url.parse(request.url).pathname;
+    var query = url.parse(request.url,true).query;
+
     console.log("Request for " + pathname + " received");
+    console.log("startDate: " +query.startDate );
+    console.log("endDate: " +query.endDate );
+
 
     response.writeHead(200, {"Content-Type": "application/json; charset=UTF-8"});
     var responseThis = response;

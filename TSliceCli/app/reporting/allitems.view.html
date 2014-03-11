@@ -1,17 +1,10 @@
 <p>This is the TimeslicerRoute view.</p>
-<!--
-<div>
-    <ol>
-        <li ng-repeat="i in allItems">
-            <span ng-class-odd="'oddrow'" ng-class-even="'evenrow'">
-                {{i.start}} : {{i.end}} :{{i.end}} :{{i.duration}} : {{i.project}} :
-                {{i.activity}} :{{i.comment}}
-            </span>
+Startdate:<input type="text" value="2013-12-01" ng-model="startdate">
+<br />
+Enddate:<input type="text" value='2013-12-31' ng-model="enddate">
+<br />
+<button type="submit" value="Fetch" ng-click="getAllItems()" />
 
-        </li>
-    </ol>
-</div>
--->
 
 <table>  
     <thead>  
@@ -37,7 +30,6 @@
     </tbody>  
 </table>
 
-
 <!-- link to the nested view-->
 <a ui-sref="allItems.list"> Show the nested view</a> <br />
 
@@ -46,36 +38,3 @@
 <div  class="statbackground" ui-view=""></div>
 
 
-<!--
-<table class="table table-hover table-bordered">  
-        <thead>  
-          <tr>  
-            <th>Student-ID</th>  
-            <th>First Name</th>  
-            <th>Last Name</th>  
-            <th>Grade</th>  
-          </tr>  
-        </thead>  
-        <tbody>  
-          <tr>  
-            <td>001</td>  
-            <td>Rammohan </td>  
-            <td>Reddy</td>  
-            <td>A+</td>  
-          </tr>  
-          <tr>  
-            <td>002</td>  
-            <td>Smita</td>  
-            <td>Pallod</td>  
-            <td>A</td>  
-          </tr>  
-          <tr>  
-            <td>003</td>  
-            <td>Rabindranath</td>  
-            <td>Sen</td>  
-            <td>A+</td>  
-          </tr>  
-        </tbody>  
-      </table>  
--->
-<!-- - See more at: http://www.w3resource.com/twitter-bootstrap/tables-tutorial.php#sthash.GSWjA4ru.dpufiv> -->

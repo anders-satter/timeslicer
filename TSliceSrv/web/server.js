@@ -3,17 +3,11 @@ var url = require("url");
 var route = require("./router");
 var tu = require("../util/timeutil");
 
+
 function start(route) {
   var onRequest = function(request, response) {
     //often two requests, since browsers try to load favicon's as well
     var pathname = url.parse(request.url).pathname;
-    var query = url.parse(request.url,true).query;
-
-    console.log("Request for " + pathname + " received");
-    console.log("startDate: " +query.startDate );
-    console.log("endDate: " +query.endDate );
-
-
     response.writeHead(200, {"Content-Type": "application/json; charset=UTF-8"});
     var responseThis = response;
     var requestThis = request;
@@ -31,10 +25,10 @@ function start(route) {
 
     console.log("calling route");
     route(pathname, request, function(text) {
-        dataCollection.push(text);
-      },
+      dataCollection.push(text);
+    },
       getResponseResultProcessor(requestThis, responseThis)
-    );
+      );
   };
 
   http.createServer(onRequest).listen(8888);
@@ -43,10 +37,11 @@ function start(route) {
 var dataCollection = [];
 
 /**
- * Function returning resultprocessor and processing
- * the result before it
- * @param response
- * @returns {resultProcessor}
+ * Function returning resultprocessor and processing the 
+ * result of it
+ * @param {type} request
+ * @param {type} response
+ * @returns {getResponseResultProcessor.resultProcessor}
  */
 function getResponseResultProcessor(request, response) {
   /*
@@ -56,27 +51,57 @@ function getResponseResultProcessor(request, response) {
    * I suppose this is a good way to achieve enacpsulation
    */
 
-  /*
-   * reading the parameters on the request to select the
-   * period to return
-   */
-
-
 
   var resultProcessor = function(itemsList) {
+    console.log('resultprocessor');
+
     /*
      * sorting on start time
      */
     var sortOnStartTime = function(item1, item2) {
       return new Date(item1.start).getTime() - new Date(item2.start).getTime();
     };
+    console.log('sorting the itemslist');
     itemsList.sort(sortOnStartTime);
+
+
+    /*
+     * Filter out the items that don't fall in the time
+     * period that we are interested in.
+     */
+    var filteredList = [];
+    var query = url.parse(request.url, true).query;
+
+    console.log(query);
+
+    var startTime = tu.conversion.getMsFromDate(query.startDate);
+    var endTime = tu.conversion.getMsFromDate(query.endDate);
+
+
+    for (var j = 0; j < itemsList.length; j++) {
+      console.log('sdf');
+      if (itemsList[j]) {
+        console.log('converting');
+        var start = tu.conversion.getMsFromDate(itemsList[j].start);
+        if (start >= startTime && start <= endTime) {
+          filteredList.push(itemsList[j]);
+        }
+      } else {
+        console.log('not logging');
+      }
+    }
+
+    console.log("showing the filtered list");
+    for (var x = 0; x < filteredList.length; x++) {
+      console.log(filteredList[x]);
+    }
 
     /*
      * the response is reachable due to 
      * closure technology
      */
-    response.end(JSON.stringify(itemsList));
+    console.log('return the filtered list');
+    response.end(JSON.stringify(filteredList));
   };
   /*
    * This exposes the callback function

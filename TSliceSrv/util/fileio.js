@@ -51,9 +51,8 @@ function readfilePromise(fileName, forEachLineCallback, finishedCallBack, onerro
 
   var deferred = q.defer();
 
-
   fs.exists(fileName, function(exists) {
-    console.log('file exists...')
+    console.log('file exists...');
     if(exists) {
       var rd = readLine.createInterface({
         input: fs.createReadStream(fileName),
@@ -80,16 +79,17 @@ function readfilePromise(fileName, forEachLineCallback, finishedCallBack, onerro
       });
     } else {
       console.log('running deferred.reject');
-      deferred.reject(onerrorcb)
+      deferred.reject(onerrorcb);
     }
   });
   return deferred.promise;
 }
 
 /**
- *
- * @param fileName
- * @returns {Promise.promise|*}
+ * Returns a promise with the data 
+ * from the file name 
+ * @param {type} fileName
+ * @returns {q@call;defer.promise}
  */
 function simpleReadFile(fileName) {
   var deferred = q.defer();
@@ -102,13 +102,10 @@ function simpleReadFile(fileName) {
   });
   return deferred.promise;
 }
+
 /*
  How could the task be split into several ones?
-
  */
-
-
-
 exports.readfile = readfile;
 exports.readfilePromise = readfilePromise;
 exports.simpleReadFile = simpleReadFile;

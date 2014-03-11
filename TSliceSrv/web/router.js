@@ -124,8 +124,10 @@ AllItemsHolder.prototype = {
   },
 
   /**
-   *  function that gets all the items
-   *  The item processor takes care of the
+   * function that gets all the items
+   * The item processor takes care of the
+   * @param {type} resultProcessor
+   * @returns {undefined}
    */
   getAllItems: function(resultProcessor) {
     'use strict';
@@ -144,11 +146,9 @@ AllItemsHolder.prototype = {
       function() {
         resultProcessor(instance.allItemsList);
       });
-
-
   },
   /**
-   *  function that gets all the items
+   *  Funct
    *  The item processor takes care of the
    *  Function returns a promise wich
    *  can take a resultprocessor
@@ -156,11 +156,11 @@ AllItemsHolder.prototype = {
    */
   getAllItemsPromise: function() {
     'use strict';
+    
     var instance = this;
     /*
      defining the return value
      */
-
     var deferred = q.defer();
 
     /*
@@ -212,8 +212,13 @@ AllItemsHolder.prototype = {
       activity: items[4],
       comment: items[5]
     };
-    this.removeExtraQoute(timeItem);
-    return timeItem;
+    if (timeItem){
+      this.removeExtraQoute(timeItem);  
+      return timeItem;
+    }
+    
+    
+    
   },
 
   /**
@@ -222,9 +227,22 @@ AllItemsHolder.prototype = {
    */
   removeExtraQoute: function(timeItem) {
     'use strict';
-    timeItem.project = timeItem.project.replace(/"/g, '');
-    timeItem.activity = timeItem.activity.replace(/"/g, '');
-    timeItem.comment = timeItem.comment.replace(/"/g, '');
+    //console.log('in removeExtraQuote');
+    //console.log('timeItem:'+timeItem);
+    if (timeItem){
+      if (timeItem.project){
+        timeItem.project = timeItem.project.replace(/"/g, '');
+      }
+      
+      if (timeItem.activity){
+        timeItem.activity = timeItem.activity.replace(/"/g, '');
+      }
+      
+      if (timeItem.comment){
+        timeItem.comment = timeItem.comment.replace(/"/g, '');  
+      }      
+    }
+  
   }
 };
 

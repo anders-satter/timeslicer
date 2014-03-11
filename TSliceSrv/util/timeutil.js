@@ -59,8 +59,12 @@ var conversion = {
     */
     getTimeDiffStrToMinutes: function (startDate, endDate){
         return (new Date(endDate).getTime() - new Date(startDate).getTime())/60000;
+    },
+    
+    getMsFromDate: function(aDate){
+      return new Date(aDate).getTime();
     }
-
+    
 };
 
 var start = "2013-12-01 08:30";

@@ -20,8 +20,8 @@ angular.module('testApp').factory('TimeslicerFactory', ['$resource', '$q','$http
       return $http({
         method: 'GET',
         url: '/timeslicer/allItems',
-        params: {'startDate': '2014-12-01',
-                 'endDate':'2014-12-31'
+        params: {'startDate': '2013-12-01',
+                 'endDate':'2013-12-31'
         }
       })
 

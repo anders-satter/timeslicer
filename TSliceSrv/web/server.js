@@ -64,26 +64,21 @@ function getResponseResultProcessor(request, response) {
     console.log('sorting the itemslist');
     itemsList.sort(sortOnStartTime);
 
-
     /*
      * Filter out the items that don't fall in the time
      * period that we are interested in.
      */
     var filteredList = [];
     var query = url.parse(request.url, true).query;
-
-    console.log(query);
-
     var startTime = tu.conversion.getMsFromDate(query.startDate);
     var endTime = tu.conversion.getMsFromDate(query.endDate);
 
-
     for (var j = 0; j < itemsList.length; j++) {
-      console.log('sdf');
       if (itemsList[j]) {
-        console.log('converting');
-        var start = tu.conversion.getMsFromDate(itemsList[j].start);
-        if (start >= startTime && start <= endTime) {
+        var dOnly = tu.conversion.getDayOnly(itemsList[j].start);
+        var tStart = tu.conversion.getMsFromDate(dOnly);
+ 
+        if (tStart >= startTime && tStart <= endTime) {
           filteredList.push(itemsList[j]);
         }
       } else {
@@ -91,10 +86,12 @@ function getResponseResultProcessor(request, response) {
       }
     }
 
+    /*
     console.log("showing the filtered list");
     for (var x = 0; x < filteredList.length; x++) {
       console.log(filteredList[x]);
     }
+    */
 
     /*
      * the response is reachable due to 

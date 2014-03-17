@@ -69,9 +69,9 @@ tr:nth-child(odd) {
 }
 
 /* Customize container */
-@media (min-width: 768px) {
+@media (min-width: 10px) {
   .container {
-    max-width: 730px;
+    //max-width: 500px;
     background-color: #d4d9c0;
   }
 }

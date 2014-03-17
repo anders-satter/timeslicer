@@ -1,33 +1,52 @@
 'use strict';
 
-
 /**
  * initializing the angular module
  */
 angular.module('testApp')
-  .controller('TimeslicerCtrl', ['$scope', 'TimeslicerFactory', 
-    function($scope, TimeslicerFactory) {
-    $scope.allItems = [];
-    $scope.startdate = '2013-12-01';
-    $scope.enddate = '2013-12-31';
 
-
-    /* In the rest factory we will insert a function
-     * that retrieves the data
-     */
-    //console.log(TimeslicerFactory.getAllItemsHttp());
-    $scope.getAllItems = function(){
-    TimeslicerFactory.getAllItemsHttp($scope.startdate, $scope.enddate)
-      .then(function (ret){
-        //console.log(ret.status);
-        $scope.allItems = ret.data;
-      })
-      .catch(function (message){
-        $scope.allItems = message;
-      })
-      ['finally'](function(){
-        //console.log('finally function called...');
-      });      
-    }
-}]);
-
+  /**
+   * 
+   * @param {type} $scope
+   * @param {type} TimeslicerFactory
+   * @param {type} $filter
+   * @param {type} ReportAggregationFactory
+   * @returns {undefined}
+   */
+  .controller('TimeslicerCtrl', ['$scope', 'TimeslicerFactory',
+    '$filter', 'ReportAggregationFactory',
+    function($scope, TimeslicerFactory, $filter, ReportAggregationFactory) {
+      var init = function() {
+        $scope.allItems = [];
+        $scope.startdate = '2013-12-01';
+        $scope.enddate = '2013-12-31';
+        $scope.summa = "0";
+        //$scope.startdate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        //$scope.enddate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $scope.projectList = [];
+        $scope.projectTimeList = [];
+        $scope.activityTimeList = [];
+      };
+      init();
+      /*
+       * This is the place where we are retrieving all the information
+       */
+      $scope.getAllItems = function() {
+        TimeslicerFactory.getAllItemsHttp($scope.startdate, $scope.enddate)
+          .then(function(ret) {
+            //console.log(ret.status);
+            $scope.summa = ReportAggregationFactory.summarizeTimes(ret.data);            
+            $scope.projectTimeList = ReportAggregationFactory
+              .getProjectList(ret.data);
+            $scope.activityTimeList = ReportAggregationFactory
+              .getProjectActivityList(ret.data);
+            $scope.allItems = ret.data;
+          })
+          .catch(function(message) {
+            $scope.allItems = message;
+          })
+          ['finally'](function() {
+          //console.log('finally function called...');
+        });
+      };
+    }]);

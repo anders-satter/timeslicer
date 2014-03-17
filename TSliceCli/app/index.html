@@ -23,16 +23,18 @@
     for our app. In this case the one defined in scripts/app.js -->
   <body ng-app="testApp">
     <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. 
+    Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
       <!-- The ng-view directive specifies that our templates
     (such as views/main.html) will be loaded into this div. -->
     <!--<div class="container" ng-view=""></div>-->
-    <div  class="container" ui-view=""></div>
-    <!-- <a ui-sref="allItems.list">All Items List</a> -->
-
+    <div  class="container">
+        <div data-ui-view></div>
+    </div>
+    
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -50,6 +52,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
         <!-- Here we include our own angular scripts -->
@@ -58,9 +61,12 @@
         <script src="ui-state.js"></script>
         <script src="reporting/allitems.ctrl.js"></script>
         <script src="services/allitems.srv.js"></script>
+        <script src="reporting/reportaggregation.srv.js"></script>
+        
         <script src="test/promise.ctrl.js"></script>
         <script src="test/my-http-interceptor.srv.js"></script>
-
+        <script src="q/q.ctrl.js"></script>
+        <script src="q/q.srv.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -3,7 +3,9 @@ angular.module('testApp').factory('TimeslicerFactory', ['$resource', '$q','$http
   return {
     /**
      * calling the http variant of the function
-     * @returns {*|Array|Object|Mixed|promise|the}
+     * @param {type} aStartDate
+     * @param {type} aEndDate
+     * @returns {unresolved}
      */
     getAllItemsHttp: function(aStartDate, aEndDate) {
       return $http({
@@ -12,7 +14,7 @@ angular.module('testApp').factory('TimeslicerFactory', ['$resource', '$q','$http
         params: {'startDate': aStartDate,
                  'endDate': aEndDate
         }
-      })
+      });
     }
-  }
+  };
 }]);

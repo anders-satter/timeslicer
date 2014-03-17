@@ -1,9 +1,19 @@
-<p>This is the TimeslicerRoute view.</p>
-Startdate:<input type="text" value="2013-12-01" ng-model="startdate">
-<br />
-Enddate:<input type="text" value='2013-12-31' ng-model="enddate">
-<br />
-<button type="submit" value="Fetch" ng-click="getAllItems()" />
+<h4>Timeslicer Time Reporting</h4>
+<table>
+    <tbody>
+        <tr>
+            <td>Start date:</td>
+            <td><input type="text" size="10" value="2013-12-01" ng-model="startdate"></td>            
+            <td>End date:</td>
+            <td><input type="text" size="10" value='2013-12-31' ng-model="enddate"></td>            
+            <td><button type="submit" value="Fetch" ng-click="getAllItems()">Fetch</button></td>            
+        </tr>
+    </tbody>
+</table>
+Result: {{summa}}
+Project list: {{projectTimeList}} 
+<br>
+Activity list: {{activityTimeList}}
 
 
 <table>  
@@ -17,7 +27,7 @@ Enddate:<input type="text" value='2013-12-31' ng-model="enddate">
             <th>Comment</th>  
         </tr>  
     </thead>
-
+    
     <tbody ng-repeat="i in allItems">
         <tr  ng-class-odd="'oddrow'" ng-class-even="'evenrow'">
             <td>{{i.start}}</td>  
@@ -31,10 +41,10 @@ Enddate:<input type="text" value='2013-12-31' ng-model="enddate">
 </table>
 
 <!-- link to the nested view-->
-<a ui-sref="allItems.list"> Show the nested view</a> <br />
+<a data-ui-sref="allItems.list"> Show the nested view</a> <br />
 
 
 <!-- This is where this view is going to have its nested view -->
-<div  class="statbackground" ui-view=""></div>
+<div  class="statbackground" data-ui-view=""></div>
 
 

@@ -1,9 +1,74 @@
 angular.module('testApp').factory('ReportAggregationFactory',
-  ['$q',
-    function($q) {
+  ['$q', function($q) {
       //fetching all items from backend
 
+      var summarizeOnField = function(list, itemNameField, itemSumField) {
+
+        var resultList = [];
+        //clone the incoming list
+        var ar = list.slice();
+
+        /*
+         * First sort on the item field 
+         * so that field names get lumped 
+         * together in the resulting array
+         */
+        ar.sort(function(itemA, itemB) {
+          if (itemNameField(itemA) > itemNameField(itemB)) {
+            return 1;
+          } else if (itemNameField(itemA) === itemNameField(itemB)) {
+            return 0;
+          } else {
+            return -1;
+          }
+        });
+
+        if (ar.length > 0) {
+          var currentItem = {};
+          for (var i = 0; i < ar.length; i++) {
+            if (i === 0) {
+              //first item
+              currentItem = {
+                name: itemNameField(ar[i]),
+                sum: itemSumField(ar[i])
+              };
+              if (i === ar.length - 1) {
+                resultList.push(currentItem);
+                break;
+              }
+            } else if (currentItem.name !== itemNameField(ar[i])) {
+              //current project name has changed - push what's in the variable
+              resultList.push(currentItem);
+              //and reset the variable
+              currentItem = {
+                name: itemNameField(ar[i]),
+                sum: itemSumField(ar[i])
+              };
+              if (i === ar.length - 1) {
+                resultList.push(currentItem);
+                break;
+              }
+            } else {
+              /*
+               * currentItemName is the same
+               */
+              currentItem.sum += itemSumField(ar[i]);
+              //if last item
+              if (i === ar.length - 1) {
+                resultList.push(currentItem);
+                break;
+              }
+            }
+          }
+        }
+
+        return resultList;
+      };
+
       return {
+        showSummarizeOnField: function(itemList, itemNameField, itemSumField) {
+          return summarizeOnField(itemList, itemNameField,itemSumField );
+        },
         summarizeTimes: function(itemList) {
           var sum = 0;
           angular.forEach(itemList, function(item) {
@@ -12,121 +77,27 @@ angular.module('testApp').factory('ReportAggregationFactory',
           return sum;
         },
         /**
-         * Returns a list of projects 
-         * @param {type} itemList
-         * @returns {undefined}
-         */
-        getProjectList: function(itemList) {
-
-          /*
-           * 
-           * perform operations on a copy of 
-           * the original array
-           */
-          var ar = itemList.slice();
-
-          var resultList = [];
-          /*
-           * First sort on the project name
-           * so that project names get lumped 
-           * together.
-           */
-          ar.sort(function(itemA, itemB) {
-            if (itemA.project > itemB.project) {
-              return 1;
-            } else if (itemA.project === itemB.project) {
-              return 0;
-            } else {
-              return -1;
-            }
-          });
-
-          /*
-           * 
-           */
-          if (ar.length > 0) {
-            var currentProject = {};
-            for (var i = 0; i < ar.length; i++) {
-              if (i === 0) {
-                //first item
-                currentProject = {
-                  name: ar[i].project,
-                  duration: ar[i].duration
-                };
-                if (i === ar.length - 1) {
-                  resultList.push(currentProject);
-                  break;
-                }
-              } else if (currentProject.name !== ar[i].project) {
-                //current project name has changed - push what's in the variable
-                resultList.push(currentProject);
-                //and reset the variable
-                currentProject = {
-                  name: ar[i].project,
-                  duration: ar[i].duration
-                };
-                if (i === ar.length - 1) {
-                  resultList.push(currentProject);
-                  break;
-                }
-              } else {
-                /*
-                 * currentProjectName is the same
-                 */
-                currentProject.duration = ar[i].duration;
-                //if last item
-                if (i === ar.length - 1) {
-                  resultList.push(currentProject);
-                  break;
-                }
-              }
-            }
-          }
-
-          return resultList;
-        },
-        /**
          * 
-         * @param {type} itemList
+         * @param {type} projectList
+         * @param {type} projectNameField
+         * @param {type} projectSumField
          * @returns {Array}
          */
-        getProjectActivityList: function(itemList) {
-          /* 
-           * perform operations on a copy of 
-           * the original array
-           */
-          var ar = itemList.slice();
-          var resultList = [];
-          /*
-           * First sort on the project  AND activity names
-           * to assure that we don't mix activities with the 
-           * same name in different projects. 
-           * together.
-           */
-          ar.sort(function(itemA, itemB) {
-            if (itemA.project + itemA.activity > itemB.project + itemB.activity) {
-              return 1;
-            } else if (itemA.project + itemA.activity === itemB.project + itemB.activity) {
-              return 0;
-            } else {
-              return -1;
-            }
-          });
-          if (ar.length > 0) {
-            var currentActivity = {name: ar[0].project + ar[0].activity,
-              duration: ar[0].duration};
-            angular.forEach(ar, function(item) {
-              if (currentActivity.name !== item.project + item.activity) {
-                resultList.push(currentActivity);
-                currentActivity = {name: item.project + item.activity,
-                  duration: item.duration};
-              } else {
-                currentActivity.duration += item.duration;
-              }
-            });
-          }
-          return resultList;
+        getProjectList: function(projectList, projectNameField, projectSumField){
+          return summarizeOnField(projectList, projectNameField,projectSumField );          
+        },
+        
+        /**
+         * 
+         * @param {type} activityList
+         * @param {type} activityNameField
+         * @param {type} activitySumField
+         * @returns {Array}
+         */
+        getProjectActivityList: function(activityList, activityNameField, 
+          activitySumField){
+            return summarizeOnField(activityList, activityNameField, 
+              activitySumField);          
         }
-
       };
     }]);

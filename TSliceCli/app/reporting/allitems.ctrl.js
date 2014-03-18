@@ -35,12 +35,20 @@ angular.module('testApp')
         TimeslicerFactory.getAllItemsHttp($scope.startdate, $scope.enddate)
           .then(function(ret) {
             //console.log(ret.status);
+          /*
+          $scope.projectTimeList = ReportAggregationFactory
+              .showSummarizeOnField(ret.data, function(item){return item.project;}, 
+            function(item){return item.duration;});
+          */
             $scope.summa = ReportAggregationFactory.summarizeTimes(ret.data);            
             $scope.projectTimeList = ReportAggregationFactory
-              .getProjectList(ret.data);
+              .getProjectList(ret.data, function(item){return item.project;}, 
+            function(item){return item.duration;});
             $scope.activityTimeList = ReportAggregationFactory
-              .getProjectActivityList(ret.data);
+              .getProjectActivityList(ret.data, function(item){return item.project+item.activity;}, 
+            function(item){return item.duration;});
             $scope.allItems = ret.data;
+            
           })
           .catch(function(message) {
             $scope.allItems = message;

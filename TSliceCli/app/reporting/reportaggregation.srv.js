@@ -1,10 +1,16 @@
 angular.module('testApp').factory('ReportAggregationFactory',
-  ['$q', function($q) {
-      //fetching all items from backend
-
+  [function() {
+      /**
+       * 
+       * @param {type} list of items to be summarized
+       * @param {type} itemNameField function returning the name of the field
+       * @param {type} itemSumField function returning the field to be summarized
+       * @returns {Array}
+       */
       var summarizeOnField = function(list, itemNameField, itemSumField) {
 
         var resultList = [];
+        var totalSum = 0.0;
         //clone the incoming list
         var ar = list.slice();
 
@@ -23,6 +29,10 @@ angular.module('testApp').factory('ReportAggregationFactory',
           }
         });
 
+        /*
+         * Go through the array, perform summing and
+         * push results to the result list.
+         */
         if (ar.length > 0) {
           var currentItem = {};
           for (var i = 0; i < ar.length; i++) {
@@ -32,6 +42,7 @@ angular.module('testApp').factory('ReportAggregationFactory',
                 name: itemNameField(ar[i]),
                 sum: itemSumField(ar[i])
               };
+              totalSum += itemSumField(ar[i]);
               if (i === ar.length - 1) {
                 resultList.push(currentItem);
                 break;
@@ -44,6 +55,8 @@ angular.module('testApp').factory('ReportAggregationFactory',
                 name: itemNameField(ar[i]),
                 sum: itemSumField(ar[i])
               };
+              totalSum += itemSumField(ar[i]);
+
               if (i === ar.length - 1) {
                 resultList.push(currentItem);
                 break;
@@ -53,6 +66,7 @@ angular.module('testApp').factory('ReportAggregationFactory',
                * currentItemName is the same
                */
               currentItem.sum += itemSumField(ar[i]);
+              totalSum += itemSumField(ar[i]);
               //if last item
               if (i === ar.length - 1) {
                 resultList.push(currentItem);
@@ -62,17 +76,17 @@ angular.module('testApp').factory('ReportAggregationFactory',
           }
         }
 
-        return resultList;
+        return {
+          itemList: resultList,
+          totalSum: totalSum
+        }
       };
 
       return {
-        showSummarizeOnField: function(itemList, itemNameField, itemSumField) {
-          return summarizeOnField(itemList, itemNameField,itemSumField );
-        },
-        summarizeTimes: function(itemList) {
+        summarizeTimes: function(itemList, itemSumField) {
           var sum = 0;
           angular.forEach(itemList, function(item) {
-            sum += item.duration;
+            sum += itemSumField(item);
           });
           return sum;
         },
@@ -83,10 +97,9 @@ angular.module('testApp').factory('ReportAggregationFactory',
          * @param {type} projectSumField
          * @returns {Array}
          */
-        getProjectList: function(projectList, projectNameField, projectSumField){
-          return summarizeOnField(projectList, projectNameField,projectSumField );          
+        getProjectList: function(projectList, projectNameField, projectSumField) {
+          return summarizeOnField(projectList, projectNameField, projectSumField);
         },
-        
         /**
          * 
          * @param {type} activityList
@@ -94,10 +107,46 @@ angular.module('testApp').factory('ReportAggregationFactory',
          * @param {type} activitySumField
          * @returns {Array}
          */
-        getProjectActivityList: function(activityList, activityNameField, 
-          activitySumField){
-            return summarizeOnField(activityList, activityNameField, 
-              activitySumField);          
+        getProjectActivityList: function(activityList, activityNameField,
+          activitySumField) {
+          return summarizeOnField(activityList, activityNameField,
+            activitySumField);
+       },
+        /**
+         * 
+         * @param {type} itemList
+         * @param {type} projectName
+         * @returns {_L2.summarizeOnField.Anonym$1|Array}
+         */
+        getActivities: function(itemList, aProjectName) {
+          var resultList = [];
+          //var ar = itemList.slice();
+
+          /*
+           * 1. create a flat list af all activities for the project
+           */
+          angular.forEach(itemList, function(item) {
+            if (item.project === aProjectName) {
+              resultList.push(item);
+            }
+          });
+
+          /*
+           * 2. summarize and return the activites for the project
+           * 
+           */
+          var actList = summarizeOnField(resultList,
+            function(item) {
+              return item.activity;
+            },
+            function(item) {
+              return item.duration;
+            }).itemList;
+
+          return {
+            projectName: aProjectName,
+            activityList: actList
+          };
         }
       };
     }]);

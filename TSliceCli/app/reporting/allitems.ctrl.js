@@ -35,18 +35,19 @@ angular.module('testApp')
       
       /**
        * plot the data to the page
-       * project1 (sum, %ofTotal)
-       * -> activity1 (sum, %ofProject, %ofToal)
-       * -> activity2 (sum, %ofProject, %ofToal)
+       * project1 sum (%ofTotal)
+       * -> activity1 sum, (%ofProject, %ofToal)
+       * -> activity2 sum, (%ofProject, %ofToal)
        * ..
-       * project2 (sum, %ofTotal)
-       * -> activity1 (sum, %ofProject, %ofToal)
-       * -> activity2 (sum, %ofProject, %ofToal)
+       * project2 sum, (%ofTotal)
+       * -> activity1 sum (%ofProject, %ofToal)
+       * -> activity2 sum (%ofProject, %ofToal)
        * ..
        * Total sum
        * 
        * @returns {undefined}
        */
+      
       var writeTimeSumData = function(){
         
       };
@@ -79,12 +80,19 @@ angular.module('testApp')
            //   .getProjectActivityList(ret.data, function(item){return item.project+item.activity;}, 
            // function(item){return item.duration;}).itemList;
             
-            
+           /*
+            * get all projects
+            */
+            $scope.activityTimeList = ReportAggregationFactory
+              .getProjectNameList(ret.data, function(item)
+                {return item.project;});
+           
+           
             /*
              * get alla items for a project
              */
-            $scope.activityTimeList = ReportAggregationFactory
-              .getActivities(ret.data, "Team TDE" );
+//            $scope.activityTimeList = ReportAggregationFactory
+//              .getActivities(ret.data, "Team TDE" );
             
             /*
              * plot all data

@@ -23,6 +23,12 @@ angular.module('testApp')
         templateUrl: 'q/q.view.html',
         controller: 'qCtrl'
       })
+      .state('input', {
+        //url is appended to the parent state url: timeslicer/allItems/promise
+        url: '/timeslicer/input',
+        templateUrl: 'input/input.view.html',
+        controller: 'InputCtrl'
+      })
 
 //      .state('state1.list', {
 //        url: "/list",

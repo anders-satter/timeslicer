@@ -17,7 +17,7 @@ angular.module('testApp', [
   'ui.bootstrap',
    'ui.router'
 
-])
+]);
 //  .config(function ($routeProvider) {
 //    // We use AngularJS dependency injection to fetch the route provider.
 //    // The route provider is used to setup our app's routes.

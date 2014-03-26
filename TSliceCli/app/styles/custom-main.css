@@ -1,0 +1,181 @@
+.gradient-wrapper {
+    font-family: monaco; 
+    /*font-size: smaller;*/
+    font-size: 10px;
+
+    padding: 20px;
+    overflow: auto;
+    background: -webkit-radial-gradient(#ffe08d, #000000); /* For Safari 5.1 to 6.0 */
+    background: -o-radial-gradient(#ffe08d, #000000); /* For Opera 11.1 to 12.0 */
+    background: -moz-radial-gradient(#ffe08d, #000000); /* For Firefox 3.6 to 15 */
+    background: radial-gradient(#ffe08d, #000000); /* Standard syntax */
+}
+.container{
+    background: #acb87f;
+    padding:15px;
+    margin: 15px;
+    /*font-family: monaco;*/ 
+    /*font-size: smaller;*/
+    /*font-size: 9px;*/
+    overflow: auto;
+    border-radius:10px;
+    min-width: 650px;
+    /*max-width: 800px;*/
+    min-height: 200px;
+}
+
+#header {
+    background: #acb87f;
+    /*color: #fab24e;*/
+    color: #714c01;
+    
+    font-size: initial;
+    padding:10px;
+    border-radius:10px;
+    min-width: 650px;
+    /*max-width: 600px;*/
+    overflow: auto;
+    float:left;
+    padding: 15px;
+    margin:15px;
+}
+
+
+.textblock {
+    width: 500px;
+    font-size: 90%;
+}
+
+.listbox {
+    width: 200px;
+    float: left;
+    margin: 0px;
+
+}
+
+.listbox-wrapper{
+    float:left;
+}
+
+.listbox_heading {
+    
+}
+
+.wide-listbox {
+    width: 400px;
+    float: left;
+}
+
+table {
+    border-collapse:collapse;
+}
+
+table,th, td {
+    border: 1px dimgray;
+      
+}
+tbody {
+    border-radius:10px;  
+}
+td {padding: 3px;}
+th {
+    /*background-color: #a3a3a3;*/
+    color: #000000;
+    padding: 3px;
+}
+.oddrow {
+    /*background: #d2ffc5;*/
+    background: #dfffdc;
+}
+.evenrow {
+    background: white;
+    /* color: yellow */
+}
+
+#aside {
+    float:inherit;
+}
+
+.buttonsection {
+    width: 200px;
+    margin-top: 50px;
+    /*padding: 15px;*/
+}
+
+.btn1{
+    float:left;
+}
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* Space out content a bit */
+body {
+    width: 100%;
+    height:100%;
+    overflow: auto;
+    /*background-repeat:no-repeat !important; */
+    min-height: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #000000;
+}
+
+
+
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+    margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+    margin: 40px 0;
+}
+
+.marketing p + h4 {
+    margin-top: 28px;
+}

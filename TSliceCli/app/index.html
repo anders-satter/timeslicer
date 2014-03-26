@@ -2,21 +2,21 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <!--<meta name="description" content="">-->
+    <!--<meta name="viewport" content="width=device-width">-->
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css  -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" /> -->
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/custom-main.css">
     <!-- endbuild -->
   </head>
   <!-- The ng-app directive tells angular which module we'll use
@@ -31,9 +31,13 @@
       <!-- The ng-view directive specifies that our templates
     (such as views/main.html) will be loaded into this div. -->
     <!--<div class="container" ng-view=""></div>-->
-    <div  class="container">
-        <div data-ui-view></div>
+    <!-- <div  class="container"> -->
+    <div class="gradient-wrapper">
+        <div id="header">Timeslicer Time Reporting</div>                        
+        <div class='container' data-ui-view></div>
     </div>
+    <!-- </div> -->
+    
     
 
     <!--[if lt IE 9]>
@@ -61,6 +65,7 @@
         <script src="ui-state.js"></script>
         <script src="reporting/allitems.ctrl.js"></script>
         <script src="services/allitems.srv.js"></script>
+        <script src="input/input.ctrl.js"></script>        
         <script src="reporting/reportaggregation.srv.js"></script>
         <script src="services/util.srv.js"></script>
         <script src="test/promise.ctrl.js"></script>

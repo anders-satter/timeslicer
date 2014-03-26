@@ -1,0 +1,22 @@
+<div style='width: 100px'>
+    <script type="text/ng-template" id='myModalContent.html' >
+        <div class="modal-header" style='width: 200px'>
+            <h3>I'm a modal!</h3>
+        </div>
+        <div class="ts-modal-body" style='width: 200px'>
+            <ul>
+                <li ng-repeat="item in items">
+                    <a ng-click="selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer" style='width: 200px'>
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <button class="btn btn-default" ng-click="open()">Open me!</button>
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+</div>

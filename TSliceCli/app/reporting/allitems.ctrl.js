@@ -8,15 +8,15 @@ angular.module('testApp')
   /**
    * 
    * @param {type} $scope
-   * @param {type} TimeslicerFactory
+   * @param {type} TimeslicerDataFactory
    * @param {type} $filter
    * @param {type} ReportAggregationFactory
    * @returns {undefined}
    */
-  .controller('TimeslicerCtrl', ['$scope', 'TimeslicerFactory',
-    '$filter', 'ReportAggregationFactory',
-    function($scope, TimeslicerFactory, $filter, ReportAggregationFactory) {
-      
+  .controller('TimeslicerCtrl', ['$scope', 'TimeslicerDataFactory',
+    '$location', 'ReportAggregationFactory', 'Util','$state',
+    function($scope, TimeslicerDataFactory, $location, ReportAggregationFactory, Util,$state) {
+
       /**
        * initialize all fields
        * @returns {undefined}
@@ -25,14 +25,13 @@ angular.module('testApp')
         $scope.allItems = [];
         $scope.startdate = '2013-12-01';
         $scope.enddate = '2013-12-31';
-        $scope.totalSum = "0";
-        //$scope.startdate = $filter('date')(new Date(), 'yyyy-MM-dd');
-        //$scope.enddate = $filter('date')(new Date(), 'yyyy-MM-dd');
-        $scope.projectList = [];
-        $scope.projectTimeList = [];
-        $scope.activityTimeList = [];
+    
       };
-      
+
+      $scope.input = function(){
+        $state.go('input');
+      };
+
       /**
        * plot the data to the page
        * project1 sum (%ofTotal)
@@ -47,53 +46,76 @@ angular.module('testApp')
        * 
        * @returns {undefined}
        */
-      
-      var writeTimeSumData = function(){
-        
-      };
-      
-      
+
+
       init();
       /*
        * This is the place where we are retrieving all the information
        */
       $scope.getAllItems = function() {
-        TimeslicerFactory.getAllItemsHttp($scope.startdate, $scope.enddate)
+        TimeslicerDataFactory.getAllItemsHttp($scope.startdate, $scope.enddate)
           .then(function(ret) {
             //console.log(ret.status);
-            $scope.totalSum = ReportAggregationFactory.summarizeTimes(ret.data, 
-              function(item){return item.duration;});            
-            
-           /*
-             * the list of all projects for a time period and the summ of time
+            /*
+             * 
+             * calculate total sum of minutes
+             */
+            var totalSum = ReportAggregationFactory.summarizeTimes(ret.data,
+              function(item) {
+                return item.duration;
+              });
+
+            /*
+             * the list of all projects for a time period and the sum of time
              * for each project
              */
-            $scope.projectTimeList = ReportAggregationFactory
-              .getProjectList(ret.data, function(item){return item.project;}, 
-            function(item){return item.duration;}).itemList;
-            
-           /*
-             * get activities for each project 
-             */
-            
-           // $scope.activityTimeList = ReportAggregationFactory
-           //   .getProjectActivityList(ret.data, function(item){return item.project+item.activity;}, 
-           // function(item){return item.duration;}).itemList;
-            
-           /*
-            * get all projects
-            */
-            $scope.activityTimeList = ReportAggregationFactory
-              .getProjectNameList(ret.data, function(item)
-                {return item.project;});
-           
-           
+            var projectTimeList = ReportAggregationFactory
+              .getProjectList(ret.data, function(item) {
+                return item.project;
+              },
+                function(item) {
+                  return item.duration;
+                }).itemList;
+
+            var presentationList = [];
+            angular.forEach(projectTimeList, function(projItem) {
+              /*
+               * first we push the project name and totals
+               */
+              presentationList.push({
+                name: projItem.name,
+                dur: Util.time.mtsToFracHours(projItem.sum),
+                perc: Util.time.percent(projItem.sum, totalSum)
+              });
+              /*
+               * Fetch all actitvites for this project
+               */
+              var activities = ReportAggregationFactory.
+                getActivities(ret.data, projItem.name);
+              angular.forEach(activities.activityList, function(actItem) {
+                /*
+                 * then we push each activity to the resultList
+                 */
+                presentationList.push({
+                  name: '--> ' + actItem.name,
+                  dur: Util.time.mtsToFracHours(actItem.sum),
+                  perc: Util.time.percent(actItem.sum, totalSum)
+                });
+              });
+            });
             /*
-             * get alla items for a project
+             * add to total to the presentation list
              */
-//            $scope.activityTimeList = ReportAggregationFactory
-//              .getActivities(ret.data, "Team TDE" );
-            
+            presentationList.push({
+              name: 'Total',
+              dur: Util.time.mtsToFracHours(totalSum),
+              perc: Util.time.percent(totalSum, totalSum)
+            });
+
+            $scope.resultList = presentationList;
+
+
+
             /*
              * plot all data
              */
@@ -106,7 +128,7 @@ angular.module('testApp')
           //console.log('finally function called...');
         });
       };
-      
-      
-      
+
+
+
     }]);

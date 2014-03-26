@@ -1,4 +1,4 @@
-angular.module('testApp').factory('TimeslicerFactory', ['$resource', '$q',
+angular.module('testApp').factory('TimeslicerDataFactory', ['$resource', '$q',
   '$http', function($resource, $q, $http) {
     //fetching all items from backend
     return {

@@ -16,7 +16,7 @@ var q = require("q");
  * @param finishedCallback
  *
  */
-var route = function(pathname, request, responseWrite, finishedCallback) {
+var route = function(pathname, request, response,responseWrite, finishedCallback) {
   'use strict';
   var tUrlParts = url.parse(request.url, true);
   console.log("route called");
@@ -44,11 +44,22 @@ var route = function(pathname, request, responseWrite, finishedCallback) {
      */
     allItemsHolder = new AllItemsHolder();
     //allItemsHolder.getAllItems(finishedCallback);
-    allItemsHolder.getAllItemsPromise().then(finishedCallback, function (err){
+    
+//    allItemsHolder.getAllItemsPromise().then(finishedCallback, function (err){
+//      console.log(err);
+//    });
+    allItemsHolder.getAllItemsPromise().then(allItemsHolder.resultProcessor(request, response), function (err){
       console.log(err);
     });
 
-
+    
+ } else if(pathname === "/timeslicer/projects") {
+    /*
+     Return a sum of all items in json format
+     http://localhost:8888/totTime
+     */
+    allItemsHolder = new AllItemsHolder();
+    allItemsHolder.getAllItems(sumAllItems);
   } else if(pathname === "/timeslicer/totTime") {
     /*
      Return a sum of all items in json format
@@ -61,7 +72,6 @@ var route = function(pathname, request, responseWrite, finishedCallback) {
     agg.mainReport.aggregate(responseWrite);
   } else if(pathname === "/test") {
     //nfc.run();
-
   }
 };
 
@@ -82,6 +92,39 @@ function sumAllItems(allItemsList) {
   console.log("sum: " + sum / 600.0);
 }
 
+
+var ProjectFinder = function(){
+  
+};
+ProjectFinder.prototype = {
+  projectList: [],
+  projectFileName: "resources/prj.txt",
+  
+  /**
+   * The resultprocessor comes from outside
+   * @param {type} resultProcessor
+   * @returns {undefined}
+   */
+  getProjects: function(resultProcessor){
+    var instance = this;
+    fileio.readfile(this.projectFileName,
+    /*
+     * parsing the line
+     * @param {type} line
+     * @returns {undefined}
+     */
+    function(line){
+      
+    }, 
+    /*
+     * resultprocessor
+     * @returns {undefined}
+     */
+    function(){
+      
+    });
+  }
+};
 
 /**
  *
@@ -243,7 +286,77 @@ AllItemsHolder.prototype = {
       }      
     }
   
-  }
+  },
+  /**
+ * Function returning resultprocessor and processing the 
+ * result of it
+ * @param {type} request
+ * @param {type} response
+ * @returns {getResponseResultProcessor.resultProcessor}
+ */
+  resultProcessor:function (request, response) {
+  /*
+   * We are returning the actual resultProcessor as a closure
+   * and the response is reachable through the functions
+   * closure context.
+   * I suppose this is a good way to achieve enacpsulation
+   */
+
+
+  var resultProcessor = function(itemsList) {
+    console.log('resultprocessor');
+
+    /*
+     * sorting on start time
+     */
+    var sortOnStartTime = function(item1, item2) {
+      return new Date(item1.start).getTime() - new Date(item2.start).getTime();
+    };
+    console.log('sorting the itemslist');
+    itemsList.sort(sortOnStartTime);
+
+    /*
+     * Filter out the items that don't fall in the time
+     * period that we are interested in.
+     */
+    var filteredList = [];
+    var query = url.parse(request.url, true).query;
+    var startTime = tu.conversion.getMsFromDate(query.startDate);
+    var endTime = tu.conversion.getMsFromDate(query.endDate);
+
+    for (var j = 0; j < itemsList.length; j++) {
+      if (itemsList[j]) {
+        var dOnly = tu.conversion.getDayOnly(itemsList[j].start);
+        var tStart = tu.conversion.getMsFromDate(dOnly);
+ 
+        if (tStart >= startTime && tStart <= endTime) {
+          filteredList.push(itemsList[j]);
+        }
+      } else {
+        console.log('not logging');
+      }
+    }
+
+    /*
+    console.log("showing the filtered list");
+    for (var x = 0; x < filteredList.length; x++) {
+      console.log(filteredList[x]);
+    }
+    */
+
+    /*
+     * the response is reachable due to 
+     * closure technology
+     */
+    console.log('return the filtered list');
+    response.end(JSON.stringify(filteredList));
+  };
+  /*
+   * This exposes the callback function
+   */
+  return resultProcessor;
+}
+
 };
 
 

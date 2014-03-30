@@ -1,25 +1,41 @@
 angular.module('testApp').controller('InputCtrl', ['$scope', '$state',
-  function($scope, $state) {
+  'TimeslicerDataFactory',
+  function($scope, $state, TimeslicerDataFactory) {
 
-    $scope.projects = ['proj1', 'proj2', 'proj3'];
+    var init = function() {
+      $scope.activities = [];
+      $scope.projectList = [];
+      $scope.selectedProject = '';
+    };
 
-    $scope.selectedProject = $scope.projects[0];
-    $scope.activities = [];
+    init();
 
-    
+    $scope.getProjects = function() {
+      TimeslicerDataFactory.getAllProjects()
+        .then(function(ret) {
+          $scope.projectList = ret.data;
+          if ($scope.projectList.length > 0) {
+            $scope.selectedProject = $scope.projectList[0];
+          }
+        })
+        .catch(function(message) {
+          $scope.projectList = message;
+        })
+        ['finally'](function() {
+        //console.log('finally function called...');
+      });
+    };
+
     $scope.fillActivities = function() {
-      if ($scope.selectedProject === 'proj1') {
-        $scope.activities = ['p1act1', 'p1act2', 'p1act3'];
-        $scope.selectedActivity = $scope.activities[0];
+      if ($scope.selectedProject) {
+        $scope.activities = $scope.selectedProject.activityList;
+        if ($scope.activities.length>0){
+          $scope.selectedActivity = $scope.activities[0];
+        }
       } else {
         $scope.activities = [];
       }
-
-    }
-
-
-
-
+    };
 
     $scope.save = function() {
       /*
@@ -30,4 +46,6 @@ angular.module('testApp').controller('InputCtrl', ['$scope', '$state',
     $scope.cancel = function() {
       $state.go('allItems');
     };
+    $scope.getProjects();
+
   }]);

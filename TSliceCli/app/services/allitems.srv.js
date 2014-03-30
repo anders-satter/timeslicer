@@ -16,6 +16,12 @@ angular.module('testApp').factory('TimeslicerDataFactory', ['$resource', '$q',
             'endDate': aEndDate
           }
         });
+      },
+      getAllProjects: function(){
+         return $http({
+          method: 'GET',
+          url: '/timeslicer/projects'
+        });
       }
     };
   }]);

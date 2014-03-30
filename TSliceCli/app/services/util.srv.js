@@ -1,4 +1,4 @@
-angular.module('testApp').factory('Util', ['$filter',function($filter) {
+angular.module('testApp').factory('Util', ['$filter', function($filter) {
     //fetching all items from backend
     return {
       getUniqueList: function(list, itemNameField) {
@@ -143,6 +143,13 @@ angular.module('testApp').factory('Util', ['$filter',function($filter) {
         };
       },
       time: {
+        getDay: function(aTimeInMs) {
+          var tDate = new Date(aTimeInMs);
+          var year = tDate.getFullYear();
+          var month = tDate.getMonth() + 1 > 9 ? tDate.getMonth() + 1 : "0" + (tDate.getMonth() + 1);
+          var date = tDate.getDate() > 9 ? tDate.getDate() : "0" + tDate.getDate();
+          return year + '-' + month + '-' + date;
+        },
         getMinutesFromMilliseconds: function(aMilliseconds, aTruncated) {
           if (aTruncated) {
             return Math.floor(aMilliseconds / 1000 / 60);
@@ -209,20 +216,20 @@ angular.module('testApp').factory('Util', ['$filter',function($filter) {
         getDayOnly: function(aDateStr) {
           return aDateStr.substring(0, 10);
         },
-        mtsToFracHours: function(minutes, pad){
-          var num = $filter('number')(minutes/60.0, 2); 
-          if (num<10 && pad){
-            num='0'+num;
+        mtsToFracHours: function(minutes, pad) {
+          var num = $filter('number')(minutes / 60.0, 2);
+          if (num < 10 && pad) {
+            num = '0' + num;
           }
           return num;
         },
-        percent: function(part, total, pad){
-          var num = $filter('number')(part/total*100, 2);
-          
-          if (num < 10 && pad){
-            num ='0'+num;
+        percent: function(part, total, pad) {
+          var num = $filter('number')(part / total * 100, 2);
+
+          if (num < 10 && pad) {
+            num = '0' + num;
           }
-          return  num+'%';
+          return  num + '%';
         }
       }
     };

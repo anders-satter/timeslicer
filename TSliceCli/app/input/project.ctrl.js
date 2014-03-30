@@ -1,11 +1,12 @@
-angular.module('testApp').controller('InputCtrl', ['$scope', '$state',
-  'TimeslicerDataFactory',
-  function($scope, $state, TimeslicerDataFactory) {
+angular.module('testApp').controller('ProjectCtrl', ['$scope', '$state',
+  'TimeslicerDataFactory','InputFactory',
+  function($scope, $state, TimeslicerDataFactory, InputFactory) {
 
     var init = function() {
       $scope.activities = [];
       $scope.projectList = [];
       $scope.selectedProject = '';
+      $scope.selectedActivity = '';
     };
 
     init();
@@ -41,11 +42,16 @@ angular.module('testApp').controller('InputCtrl', ['$scope', '$state',
       /*
        * perform saving operations
        */
-      $state.go('allItems');
+      InputFactory.setCurrentProject($scope.selectedProject.name);
+      InputFactory.setCurrentActivity($scope.selectedActivity);
+      
+      $state.go('inputTimeItem');
     };
     $scope.cancel = function() {
       $state.go('allItems');
     };
+    
+    
     $scope.getProjects();
 
   }]);

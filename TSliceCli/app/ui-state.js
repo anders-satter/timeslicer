@@ -26,9 +26,15 @@ angular.module('testApp')
       .state('input', {
         //url is appended to the parent state url: timeslicer/allItems/promise
         url: '/timeslicer/input',
-        templateUrl: 'input/input.view.html',
-        controller: 'InputCtrl'
+        templateUrl: 'input/project.view.html',
+        controller: 'ProjectCtrl'
       })
+      .state('inputTimeItem', {
+        //url is appended to the parent state url: timeslicer/allItems/promise
+        url: '/timeslicer/input-timeitem',
+        templateUrl: 'input/timeitem.view.html',
+        controller: 'InputTimeItemCtrl'
+      });
 
 //      .state('state1.list', {
 //        url: "/list",

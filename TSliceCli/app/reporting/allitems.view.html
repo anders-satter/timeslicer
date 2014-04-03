@@ -1,15 +1,14 @@
-<table>
-    <tbody>
-        <tr>
-            <td>Start date:</td>
-            <td><input type="text" size="10" value="2013-12-01" ng-model="startdate"></td>            
-            <td>End date:</td>
-            <td><input type="text" size="10" value='2013-12-31' ng-model="enddate"></td>            
-            <td><button type="submit" value="Fetch" ng-click="getAllItems()">Fetch</button></td>            
-            <td><button type="submit" value="Input" ng-click="input()">Input</button></td>            
-        </tr>
-    </tbody>
-</table>
+<div class='buttonsection'>
+    <button type="submit" value="Fetch" ng-click="getAllItems()">Fetch</button>
+    <button type="submit" value="Input" ng-click="input()">Input</button>            
+</div>
+
+<div>
+    Start date:
+    <input type="text" size="10" value="2013-12-01" ng-model="startdate">            
+    End date:
+    <input type="text" size="10" value='2013-12-31' ng-model="enddate">                
+</div>
 
 <table>
     <thead>  
@@ -39,7 +38,7 @@
             <th>Comment</th>  
         </tr>  
     </thead>
-    
+
     <tbody ng-repeat="i in allItems">
         <tr  ng-class-odd="'oddrow'" ng-class-even="'evenrow'">
             <td>{{i.start}}</td>  

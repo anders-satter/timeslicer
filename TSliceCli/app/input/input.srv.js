@@ -2,7 +2,10 @@ angular.module('testApp').factory('InputFactory',
   ['Util', function(util) {
       var currentDate = '';
       var currentProject = '';
-      var currentActivity = '';
+      var currentActivity = '';      
+      var currentStartTime = '';
+      var currentTime = '';
+      
 
       return {
         setCurrentProject: function(aCurrentProject) {
@@ -20,6 +23,16 @@ angular.module('testApp').factory('InputFactory',
         getCurrentDate: function() {
           currentDate = util.time.getDay(new Date().getTime());
           return currentDate;
-        }
+        },
+        getCurrentStartTime: function(){
+          return currentStartTime;
+        },        
+        setCurrentStartTime: function(startTime){
+          currentStartTime = startTime;
+        },        
+        getCurrentTime: function(){
+          currentTime = util.time.getCurrentHourMinutes();
+          return currentTime;
+        }        
       };
     }]);

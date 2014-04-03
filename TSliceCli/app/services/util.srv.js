@@ -143,6 +143,12 @@ angular.module('testApp').factory('Util', ['$filter', function($filter) {
         };
       },
       time: {
+        getCurrentHourMinutes: function(){
+          var tDate = new Date();
+          var hour = tDate.getHours() > 9 ? tDate.getHours() : "0" + tDate.getHours();
+          var minutes = tDate.getMinutes() > 9 ? tDate.getMinutes() : "0" + tDate.getMinutes();
+          return hour + ':' + minutes;
+        },
         getDay: function(aTimeInMs) {
           var tDate = new Date(aTimeInMs);
           var year = tDate.getFullYear();

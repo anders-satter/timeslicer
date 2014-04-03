@@ -62,6 +62,13 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
      */
     allItemsHolder = new agg.AllItemsHolder();
     allItemsHolder.getAllItems(sumAllItems);
+  } else if(pathname === "/timeslicer/projects/sumtime") {
+    /*
+     Return a sum of all items in json format
+     http://localhost:8888/totTime
+     */
+    allItemsHolder = new agg.AllItemsHolder();
+    allItemsHolder.getAllItems(sumAllItems);
   } else if(pathname === "/timeslicer/totTime") {
     /*
      Return a sum of all items in json format

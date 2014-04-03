@@ -48,26 +48,8 @@ ProjectList.prototype = {
 
     });
     return deferred.promise;
-
   },
-  projectResultProcessor: function(request, response) {
-   
-    var resultProcessor = function(result) {
-      console.log('resultprocessor');
-
-      /*
-       * the response is reachable due to 
-       * closure technology
-       */
-      console.log('return the filtered list');
-      response.end(result);
-    };
-    /*
-     * This exposes the callback function
-     */
-    return resultProcessor;
-
-  },
+  
   jsonifyProjectFileContent: function(itemList) {
     /*
      * get the indeces of the projectnames

@@ -45,6 +45,7 @@ angular.module('testApp').controller('ProjectCtrl', ['$scope', '$state',
       InputFactory.setCurrentProject($scope.selectedProject.name);
       InputFactory.setCurrentActivity($scope.selectedActivity);
       
+      
       $state.go('inputTimeItem');
     };
     $scope.cancel = function() {

@@ -1,6 +1,7 @@
 var q = require("q");
 var fileio = require("../util/fileio");
 var tu = require("../util/timeutil");
+var glob = require("../util/globalutil");
 var url = require("url");
 /**
  *
@@ -22,7 +23,9 @@ AllItemsHolder.prototype = {
    Parsed list of logitems
    */
   allItemsList: [],
-  logFileName: "resources/log.txt",
+  //logFileName: "resources/log.txt",
+  logFileName: glob.settings.logFileName, 
+    
   /**
    *
    * @param allItemsList

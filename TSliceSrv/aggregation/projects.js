@@ -77,7 +77,7 @@ ProjectList.prototype = {
         /*
          * reinitialize
          */
-        currentProj = instance.removeCarriageReturn(item);
+        currentProj = instance.removeCharacters(item);
         currentActivityList = [];
 
         if (index === list.length - 1) {
@@ -94,7 +94,7 @@ ProjectList.prototype = {
         }
       } else if (item.indexOf('+') > -1) {
 
-        currentActivity = instance.removeCarriageReturn(item);
+        currentActivity = instance.removeCharacters(item);
         currentActivityList.push(currentActivity);
         if (index === list.length - 1) {
           /*
@@ -117,7 +117,7 @@ ProjectList.prototype = {
    * @param {type} item
    * @returns {undefined}
    */
-  removeCarriageReturn: function(item) {
+  removeCharacters: function(item) {
     'use strict';
     if (item) {
       item = item.replace(/\r/g, '');

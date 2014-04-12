@@ -5,6 +5,7 @@ var url = require("url");
 var nfc = require("../test/nodeflowcontrol");
 var tu = require("../util/timeutil");
 var q = require("q");
+var ic = require("../input/inputconverter");
 
 
 /**
@@ -24,19 +25,19 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
 
   var allItemsHolder = {};
 
-  if(pathname === "/favicon.ico") {
+  if (pathname === "/favicon.ico") {
     /*
      no return statement needed, as of yet
      */
     //return;
 
-  } else if(pathname === "/timeslicer/readFile") {
+  } else if (pathname === "/timeslicer/readFile") {
     console.log("readFile called");
     console.log(tUrlParts.query.name);
     fileio.readfile(tUrlParts.query.name, responseWrite, finishedCallback);
-  } else if(pathname === "/") {
+  } else if (pathname === "/") {
     fileio.readfile("resources/log.txt", responseWrite, finishedCallback);
-  } else if(pathname === "/timeslicer/allItems") {
+  } else if (pathname === "/timeslicer/allItems") {
     console.log("allItems called");
     /*
      Return all items in json format
@@ -44,32 +45,49 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
      */
     allItemsHolder = new agg.AllItemsHolder();
     allItemsHolder.getAllItemsPromise()
-      .then(allItemsHolder.resultProcessor(request, response), function (err){
-      console.log(err);
-    });    
-    
- } else if (pathname ==='/timeslicer/projects') {
-   var projectList = new prj.ProjectList();
-   projectList.getItems()  
-    .then(function(data){
-      response.end(data);
+      .then(allItemsHolder.resultProcessor(request, response), function(err) {
+        console.log(err);
+      });
+
+  } else if (pathname === '/timeslicer/projects') {
+    var projectList = new prj.ProjectList();
+    projectList.getItems()
+      .then(function(data) {
+        response.end(data);
+      });
+
+  } else if (pathname === "/timeslicer/timeitem") {
+
+    var body = "";
+    request.on('data', function(chunk) {
+      body += chunk;
     });
+    request.on('end', function() {
+      var timeItem = new ic.TimeItem(body);
 
- } else if(pathname === "/timeslicer/projects/sumtime") {
+      timeItem.writeToFile()
+        .then(function(result) {
+          response.writeHead(200);
+        })
+        .catch(function(err) {
+          response.writeHead(401);
+        });
+
+      //console.log('POSTed: ' + body);
+      //response.writeHead(200);
+      //response.end(postHTML);
+      response.end('data written to the file');
+    });
+    //console.log(tUrlParts);
+    //response.end('call received');
+  } else if (pathname === "/timeslicer/projects/sumtime") {
     /*
      Return a sum of all items in json format
      http://localhost:8888/totTime
      */
     allItemsHolder = new agg.AllItemsHolder();
     allItemsHolder.getAllItems(sumAllItems);
-  } else if(pathname === "/timeslicer/projects/sumtime") {
-    /*
-     Return a sum of all items in json format
-     http://localhost:8888/totTime
-     */
-    allItemsHolder = new agg.AllItemsHolder();
-    allItemsHolder.getAllItems(sumAllItems);
-  } else if(pathname === "/timeslicer/totTime") {
+  } else if (pathname === "/timeslicer/totTime") {
     /*
      Return a sum of all items in json format
      http://localhost:8888/totTime
@@ -77,9 +95,9 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
     allItemsHolder = new agg.AllItemsHolder();
     allItemsHolder.getAllItems(sumAllItems);
 
-  } else if(pathname === "/agg") {
+  } else if (pathname === "/agg") {
     agg.mainReport.aggregate(responseWrite);
-  } else if(pathname === "/test") {
+  } else if (pathname === "/test") {
     //nfc.run();
   }
 };
@@ -92,9 +110,9 @@ function sumAllItems(allItemsList) {
   'use strict';
 
   var sum = 0;
-  for(var i = 0; i < allItemsList.length; i++) {
+  for (var i = 0; i < allItemsList.length; i++) {
     console.log(allItemsList[i]);
-    if(allItemsList[i].end) {
+    if (allItemsList[i].end) {
       sum += allItemsList[i].duration;
     }
   }
@@ -102,38 +120,37 @@ function sumAllItems(allItemsList) {
 }
 
 
-var ProjectFinder = function(){
-  
+var ProjectFinder = function() {
+
 };
 ProjectFinder.prototype = {
   projectList: [],
   projectFileName: "resources/prj.txt",
-  
   /**
    * The resultprocessor comes from outside
    * @param {type} resultProcessor
    * @returns {undefined}
    */
-  getProjects: function(resultProcessor){
+  getProjects: function(resultProcessor) {
     var instance = this;
     fileio.readfile(this.projectFileName,
-    /*
-     * parsing the line
-     * @param {type} line
-     * @returns {undefined}
-     */
-    function(line){
-      
-    }, 
-    /*
-     * resultprocessor
-     * @returns {undefined}
-     */
-    function(){
-      
-    });
-  }
-};
+      /*
+       * parsing the line
+       * @param {type} line
+       * @returns {undefined}
+       */
+        function(line) {
+
+        },
+        /*
+         * resultprocessor
+         * @returns {undefined}
+         */
+          function() {
+
+          });
+      }
+  };
 
 
 exports.route = route;

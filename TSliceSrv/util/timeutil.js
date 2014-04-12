@@ -65,7 +65,11 @@ var conversion = {
     },
     getDayOnly: function(aDateStr){
         return aDateStr.substring(0,10);
+    },
+    getTimeOnly: function(aDateStr){
+        return aDateStr.substring(11,16);
     }
+    
 };
 
 var start = "2013-12-01 08:30";

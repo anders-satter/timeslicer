@@ -1,6 +1,6 @@
 angular.module('testApp').controller('InputTimeItemCtrl',['$scope', 'Util',
-  'InputFactory','$state',
-  function($scope, util, inputFactory, $state){
+  'InputFactory','$state','TimeslicerDataFactory',
+  function($scope, util, inputFactory, $state, TimeslicerDataFactory){
     $scope.currentDate = inputFactory.getCurrentDate();
     $scope.currentProject = inputFactory.getCurrentProject();
     $scope.currentActivity = inputFactory.getCurrentActivity();
@@ -13,8 +13,10 @@ angular.module('testApp').controller('InputTimeItemCtrl',['$scope', 'Util',
       inputFactory.setCurrentProject($scope.currentProject);
       inputFactory.setCurrentActivity($scope.currentActivity);
       inputFactory.setCurrentStartTime($scope.currentStartTime);
-      
-      
+      /*
+       * 
+       */
+      TimeslicerDataFactory.postTimeItem();
       /*
        * after saving reset the starttime with the current endtime
        */

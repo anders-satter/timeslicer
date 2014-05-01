@@ -45,11 +45,57 @@ ProjectList.prototype = {
       } catch (err) {
         deferred.reject('Error in getItemPromise function ' + err);
       }
-
     });
     return deferred.promise;
   },
   
+  addProject: function(aProjectName) {
+    this.getProjectItemsAsList()
+      .then(function(projList) {
+        projList.push({name: aProjectName, activityList: []});
+        projList.forEach(function(item) {
+          console.log(item.name);
+          item.activityList.forEach(function(activity) {
+            console.log('--> ' + activity);
+          });
+        });
+      })
+      .catch(function(err) {
+        console.log('err ' + err);
+      })
+      .finally(function() {
+        console.log('finally called');
+      });
+  },
+  addActivity: function(aProjectName, aNewActivityName) {
+    this.getProjectItemsAsList()
+      .then(function(projList) {
+        projList.forEach(function(item){
+          if (item.name === aProjectName){
+            item.activityList.push(aNewActivityName);
+          }
+        });
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+      .finally(function() {
+
+      });
+  },
+  
+  getProjectItemsAsList: function() {
+    var deferred = q.defer();
+    this.getItems()
+      .then(function(json) {
+        var projList = JSON.parse(json);
+        deferred.resolve(projList);
+      })
+      .catch(function(err) {
+        deferred.reject(err);
+      });
+    return deferred.promise;
+  },
   jsonifyProjectFileContent: function(itemList) {
     /*
      * get the indeces of the projectnames

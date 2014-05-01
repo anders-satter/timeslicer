@@ -1,0 +1,77 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'bower.json' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 warn package.json test@0.0.0 No repository field.
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'bower.json', null ]
+7 verbose cache add name=undefined spec="bower.json" args=["bower.json",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'bower.json',
+8 verbose parsed url   path: 'bower.json',
+8 verbose parsed url   href: 'bower.json' }
+9 silly lockFile a1471113-bower-json bower.json
+10 verbose lock bower.json /Users/anders/.npm/a1471113-bower-json.lock
+11 verbose chmod /var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz 644
+12 verbose tar unpack /var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz
+13 silly lockFile ffed89f2-99764-0-4613395647611469-package tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/package
+14 verbose lock tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/package /Users/anders/.npm/ffed89f2-99764-0-4613395647611469-package.lock
+15 silly lockFile d1da47c0-99764-0-4613395647611469-tmp-tgz tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz
+16 verbose lock tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz /Users/anders/.npm/d1da47c0-99764-0-4613395647611469-tmp-tgz.lock
+17 silly gunzTarPerm modes [ '755', '644' ]
+18 error not a package /var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz
+19 silly lockFile ffed89f2-99764-0-4613395647611469-package tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/package
+20 silly lockFile ffed89f2-99764-0-4613395647611469-package tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/package
+21 silly lockFile d1da47c0-99764-0-4613395647611469-tmp-tgz tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz
+22 silly lockFile d1da47c0-99764-0-4613395647611469-tmp-tgz tar:///var/folders/f0/zrdjg_sx61z561q4gxj36f0r0000gn/T/npm-7159-wyHQlvL1/1397337199764-0.4613395647611469/tmp.tgz
+23 silly lockFile a1471113-bower-json bower.json
+24 silly lockFile a1471113-bower-json bower.json
+25 verbose addNamed [ 'bower.json', '' ]
+26 verbose addNamed [ null, '*' ]
+27 silly lockFile 7da079a2-bower-json bower.json@
+28 verbose lock bower.json@ /Users/anders/.npm/7da079a2-bower-json.lock
+29 silly addNameRange { name: 'bower.json', range: '*', hasData: false }
+30 verbose url raw bower.json
+31 verbose url resolving [ 'https://registry.npmjs.org/', './bower.json' ]
+32 verbose url resolved https://registry.npmjs.org/bower.json
+33 info trying registry request attempt 1 at 23:13:19
+34 http GET https://registry.npmjs.org/bower.json
+35 http 404 https://registry.npmjs.org/bower.json
+36 silly registry.get cb [ 404,
+36 silly registry.get   { date: 'Sat, 12 Apr 2014 21:13:20 GMT',
+36 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+36 silly registry.get     'content-type': 'application/json',
+36 silly registry.get     via: '1.1 varnish',
+36 silly registry.get     'cache-control': 'max-age=0',
+36 silly registry.get     'content-length': '52',
+36 silly registry.get     'accept-ranges': 'bytes',
+36 silly registry.get     age: '0',
+36 silly registry.get     'x-served-by': 'cache-v41-ASH, cache-am69-AMS',
+36 silly registry.get     'x-cache': 'MISS, MISS',
+36 silly registry.get     'x-cache-hits': '0, 0',
+36 silly registry.get     'x-timer': 'S1397337200.423809767,VS0,VS40,VE134,VE180',
+36 silly registry.get     'keep-alive': 'timeout=10, max=50',
+36 silly registry.get     connection: 'Keep-Alive' } ]
+37 silly lockFile 7da079a2-bower-json bower.json@
+38 silly lockFile 7da079a2-bower-json bower.json@
+39 error 404 'bower.json' is not in the npm registry.
+39 error 404 You should bug the author to publish it
+39 error 404 It was specified as a dependency of 'test'
+39 error 404
+39 error 404 Note that you can also install from a
+39 error 404 tarball, folder, or http url, or git url.
+40 error System Darwin 13.0.2
+41 error command "node" "/usr/local/bin/npm" "install" "bower.json"
+42 error cwd /Users/anders/dev/webdev/timeslicer/TSliceCli
+43 error node -v v0.10.26
+44 error npm -v 1.4.3
+45 error code E404
+46 verbose exit [ 1, true ]

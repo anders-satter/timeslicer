@@ -56,6 +56,36 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
         response.end(data);
       });
 
+  } else if (pathname === '/timeslicer/project') {
+    /*
+     * Used to add a project 
+     * 
+     */
+    var projectList = new prj.ProjectList();
+    
+    var body = "";
+    request.on('data', function(chunk) {
+      body += chunk;
+    });
+    request.on('end', function() {
+      console.log('body ' + body);
+//      var timeItem = new ic.TimeItem(body);
+//      timeItem.writeToFile()
+//        .then(function(result) {
+//          response.writeHead(200);
+//        })
+//        .catch(function(err) {
+//          response.writeHead(401);
+//        });
+      projectList.addProject('NewProject');
+      /*
+       * saving must be done in between the different calls!
+       */
+      projectList.addActivity('NewProject', 'NewActivity1');
+      projectList.addProject('Fin');
+      response.end('data written to the file');
+    });
+
   } else if (pathname === "/timeslicer/timeitem") {
 
     var body = "";
@@ -63,6 +93,7 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
       body += chunk;
     });
     request.on('end', function() {
+      console.log('body ' + body);
       var timeItem = new ic.TimeItem(body);
 
       timeItem.writeToFile()
@@ -72,10 +103,6 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
         .catch(function(err) {
           response.writeHead(401);
         });
-
-      //console.log('POSTed: ' + body);
-      //response.writeHead(200);
-      //response.end(postHTML);
       response.end('data written to the file');
     });
     //console.log(tUrlParts);
@@ -101,7 +128,6 @@ var route = function(pathname, request, response, responseWrite, finishedCallbac
     //nfc.run();
   }
 };
-
 /**
  * Sums the durations of allItemsList
  * @param allItemsList

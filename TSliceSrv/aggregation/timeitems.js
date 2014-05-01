@@ -22,8 +22,8 @@ function parseLoggedLine(line){
 		duration: tu.conversion.getTimeDiffStrToMinutes(items[0], items[1]),
 		project: items[3],
 		activity: items[4],
-		comment: items[5],
-	}
+		comment: items[5]
+	};
 
 	gTimeItemList.push(timeItem);
 	//console.log(timeItem);
